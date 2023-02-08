@@ -1,0 +1,5 @@
+#REPLACE FILE3 author
+#REPLACE author.Recnum |FN3,0
+#REPLACE author.id |FN3,1
+#REPLACE author.firstName |FS3,2
+#REPLACE author.lastName |FS3,3
