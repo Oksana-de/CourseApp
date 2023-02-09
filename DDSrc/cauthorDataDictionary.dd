@@ -1,25 +1,25 @@
 ﻿Use DataDict.pkg
 
-Open author
-Open course
-Open system
+Open Author
+Open Course
+Open System
 
-Class cauthorDataDictionary is a DataDictionary
+Class cAuthorDataDictionary is a DataDictionary
     
     Procedure Construct_Object
         Forward Send Construct_Object
-        Set Main_File to author.File_Number
+        Set Main_File to Author.File_Number
 
-        Set Add_System_File to system.File_Number DD_Lock_On_All
+        Set Add_System_File to System.File_Number DD_Lock_On_All
 
-        Set Add_Client_File to course.File_Number
+        Set Add_Client_File to Course.File_Number
 
         Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
         Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
 
-        Set Field_Auto_Increment Field author.id to File_Field system.author_id
+        Set Field_Auto_Increment Field Author.ID to File_Field System.AuthorId
 
     End_Procedure
 

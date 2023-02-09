@@ -1,39 +1,39 @@
 ﻿Use DataDict.pkg
 
-Open course
-Open author
-Open system
+Open Course
+Open Author
+Open System
 
-Object category_val is a ValidationTable
+Object CategoryVal is a ValidationTable
     Procedure Fill_List
         Forward Send Fill_List
         Send Add_Table_Value "IT"
-        Send Add_Table_Value "languages"
-        Send Add_Table_Value "marketing"
-        Send Add_Table_Value "handmade"
+        Send Add_Table_Value "Languages"
+        Send Add_Table_Value "Marketing"
+        Send Add_Table_Value "Handmade"
     End_Procedure
 End_Object
 
-Class ccourseDataDictionary is a DataDictionary
+Class cCourseDataDictionary is a DataDictionary
     
     Procedure Construct_Object
         Forward Send Construct_Object
-        Set Main_File to course.File_Number
+        Set Main_File to Course.File_Number
 
-        Set Add_System_File to system.File_Number DD_Lock_On_All
+        Set Add_System_File to System.File_Number DD_Lock_On_All
 
-        Set Add_Server_File to author.File_Number
+        Set Add_Server_File to Author.File_Number
 
         Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
         Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
 
-        Set Field_Auto_Increment Field course.id to File_Field system.course_id
+        Set Field_Auto_Increment Field Course.Id to File_Field System.CourseId
 
-        Set Field_Option Field course.name DD_REQUIRED to True
+        Set Field_Option Field Course.Name DD_REQUIRED to True
 
-        Set Field_Value_Table Field course.category to category_val
+        Set Field_Value_Table Field Course.Category to CategoryVal
 
     End_Procedure
 

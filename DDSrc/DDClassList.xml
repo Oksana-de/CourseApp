@@ -3,33 +3,33 @@
 	<Tables>
 		<Table>
 			<tableNumber>2</tableNumber>
-			<tableName>course</tableName>
+			<tableName>Course</tableName>
 			<DDClasses>
 				<DDClass>
-					<className>ccourseDataDictionary</className>
-					<classFile>ccourseDataDictionary.dd</classFile>
+					<className>cCourseDataDictionary</className>
+					<classFile>cCourseDataDictionary.dd</classFile>
 					<preferred>true</preferred>
 				</DDClass>
 			</DDClasses>
 		</Table>
 		<Table>
 			<tableNumber>3</tableNumber>
-			<tableName>author</tableName>
+			<tableName>Author</tableName>
 			<DDClasses>
 				<DDClass>
-					<className>cauthorDataDictionary</className>
-					<classFile>cauthorDataDictionary.dd</classFile>
+					<className>cAuthorDataDictionary</className>
+					<classFile>cAuthorDataDictionary.dd</classFile>
 					<preferred>true</preferred>
 				</DDClass>
 			</DDClasses>
 		</Table>
 		<Table>
 			<tableNumber>4</tableNumber>
-			<tableName>student</tableName>
+			<tableName>Student</tableName>
 			<DDClasses>
 				<DDClass>
-					<className>cstudentDataDictionary</className>
-					<classFile>cstudentDataDictionary.dd</classFile>
+					<className>cStudentDataDictionary</className>
+					<classFile>cStudentDataDictionary.dd</classFile>
 					<preferred>true</preferred>
 				</DDClass>
 			</DDClasses>

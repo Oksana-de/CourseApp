@@ -1,7 +1,7 @@
-id
-name
-description
-category
-price
-date
-author_id
+Id
+Name
+Description
+Category
+Price
+Date
+AuthorID

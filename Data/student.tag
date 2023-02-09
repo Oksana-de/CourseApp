@@ -1,4 +1,4 @@
-id
-firstName
-lastName
-dateOfBirth
+Id
+FirstName
+LastName
+DateOfBirth
