@@ -1,0 +1,63 @@
+﻿Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebForm.pkg 
+Use cWebGrid.pkg
+Use cWebColumn.pkg
+
+Use cCourseDataDictionary.dd
+Use cAuthorDataDictionary.dd
+
+Object oCourseOverview is a cWebView
+    Set piWidth to 700
+    Set psCaption to "Course Overview"
+
+    // Your DDO structure will go here
+    
+    Object oAuthor_DD is a cAuthorDataDictionary
+    End_Object
+    
+    Object oCourse_DD is a cCourseDataDictionary
+        Set DDO_Server to oAuthor_DD
+    End_Object
+    
+    Set Main_DD to oCourse_DD
+    Set Server to oCourse_DD
+    
+    Procedure OnLoad
+        Send Find of oCourse_DD FIRST_RECORD 1
+    End_Procedure
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12        
+    
+        Object oWebGrid1 is a cWebGrid
+            
+            Object oWebColumnName is a cWebColumn
+                Entry_Item Course.Name
+                Set psCaption to "Course"
+                Set piWidth to 50
+            End_Object
+            
+            Object oWebColumnCategory is a cWebColumn
+                Entry_Item Course.Category
+                Set psCaption to "Category"
+                Set piWidth to 50
+            End_Object
+            
+            Object oWebColumnPrice is a cWebColumn
+                Entry_Item Course.Price
+                Set psCaption to "Price"
+                Set piWidth to 50
+            End_Object
+            
+            Object oWebColumnAuthor is a cWebColumn
+                Entry_Item Author.LastName
+                Set psCaption to "Author"
+                Set piWidth to 50
+            End_Object
+            
+        End_Object       
+        
+    End_Object 
+
+End_Object

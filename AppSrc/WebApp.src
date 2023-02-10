@@ -104,6 +104,11 @@ Object oWebApp is a cWebApp
                     Set psCaption to "Overview"
                     Set psLoadViewOnClick to "oOverview"
                 End_Object
+
+                Object oCourseOverviewItem1 is a cWebMenuItemLoadView
+                    Set psCaption to "CourseOverview"
+                    Set psLoadViewOnClick to "oCourseOverview"
+                End_Object
             End_Object  
         End_Object  
         
@@ -150,7 +155,15 @@ Object oWebApp is a cWebApp
     Use Author.wo
     Use Course.wo
     Use Overview.wo
+    Use CourseOverview.wo
     
+    Function GetDefaultView Returns Handle
+        Handle hView
+        
+        Move oCourseOverview to hView
+        Function_Return (hView)
+    End_Function
+
 End_Object
 
 Send StartWebApp of oWebApp
