@@ -4,6 +4,8 @@ Open Author
 Open Course
 Open System
 
+Register_Object oAuthorWebLookup
+
 Class cAuthorDataDictionary is a DataDictionary
     
     Procedure Construct_Object
@@ -21,6 +23,16 @@ Class cAuthorDataDictionary is a DataDictionary
 
         Set Field_Auto_Increment Field Author.ID to File_Field System.AuthorId
 
+        Set Field_WebPrompt_Object Field Author.ID to oAuthorWebLookup
+        Set Field_WebPrompt_Object Field Author.FirstName to oAuthorWebLookup
+        Set Field_WebPrompt_Object Field Author.LastName to oAuthorWebLookup
+
     End_Procedure
 
 End_Class
+
+    #IFDEF Is$WebApp
+    Use AuthorWebLookup.wo
+    #ELSE
+    #ENDIF
+    

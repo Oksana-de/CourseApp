@@ -14,6 +14,8 @@ Object CategoryVal is a ValidationTable
     End_Procedure
 End_Object
 
+Register_Object oCourseWebLookup
+
 Class cCourseDataDictionary is a DataDictionary
     
     Procedure Construct_Object
@@ -32,9 +34,20 @@ Class cCourseDataDictionary is a DataDictionary
         Set Field_Auto_Increment Field Course.Id to File_Field System.CourseId
 
         Set Field_Option Field Course.Name DD_REQUIRED to True
+        Set Field_WebPrompt_Object Field Course.Name to oCourseWebLookup
 
         Set Field_Value_Table Field Course.Category to CategoryVal
+
+        Set Field_WebPrompt_Object Field Course.Price to oCourseWebLookup
+
+        Set Field_WebPrompt_Object Field Course.Date to oCourseWebLookup
 
     End_Procedure
 
 End_Class
+
+    #IFDEF Is$WebApp
+    Use CourseWebLookup.wo
+    #ELSE
+    #ENDIF
+    
