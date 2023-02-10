@@ -106,7 +106,7 @@ Object oWebApp is a cWebApp
                 End_Object
 
                 Object oCourseOverviewItem1 is a cWebMenuItemLoadView
-                    Set psCaption to "CourseOverview"
+                    Set psCaption to "Course overview"
                     Set psLoadViewOnClick to "oCourseOverview"
                 End_Object
             End_Object  

@@ -63,6 +63,7 @@ Object oOverview is a cWebView
                 Entry_Item Course.Price
                 Set psCaption to "Price"
                 Set piWidth to 172
+                Set peAlign to alignLeft
             End_Object 
 
             Object oCourseDate is a cWebColumnDate
