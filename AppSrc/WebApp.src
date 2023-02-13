@@ -9,7 +9,7 @@ Object oApplication is a cApplication
 End_Object
 
 Object oWebApp is a cWebApp
-    Set psTheme to "Df_Material"
+    Set psTheme to "MyCustomTheme"
     Set peApplicationStateMode to asmHistoryAndUrls
     Set psEncryptPassword to "qD?|m87PM=tCWo,fY&v>.^Exw)]#^tkca++9&c^9"
 
