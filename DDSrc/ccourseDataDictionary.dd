@@ -1,0 +1,53 @@
+﻿Use DataDict.pkg
+
+Open Course
+Open Author
+Open System
+
+Object CategoryVal is a ValidationTable
+    Procedure Fill_List
+        Forward Send Fill_List
+        Send Add_Table_Value "IT"
+        Send Add_Table_Value "Languages"
+        Send Add_Table_Value "Marketing"
+        Send Add_Table_Value "Handmade"
+    End_Procedure
+End_Object
+
+Register_Object oCourseWebLookup
+
+Class cCourseDataDictionary is a DataDictionary
+    
+    Procedure Construct_Object
+        Forward Send Construct_Object
+        Set Main_File to Course.File_Number
+
+        Set Add_System_File to System.File_Number DD_Lock_On_All
+
+        Set Add_Server_File to Author.File_Number
+
+        Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
+        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
+        Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
+        Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
+
+        Set Field_Auto_Increment Field Course.Id to File_Field System.CourseId
+
+        Set Field_Option Field Course.Name DD_REQUIRED to True
+        Set Field_WebPrompt_Object Field Course.Name to oCourseWebLookup
+
+        Set Field_Value_Table Field Course.Category to CategoryVal
+
+        Set Field_WebPrompt_Object Field Course.Price to oCourseWebLookup
+
+        Set Field_WebPrompt_Object Field Course.Date to oCourseWebLookup
+
+    End_Procedure
+
+End_Class
+
+    #IFDEF Is$WebApp
+    Use CourseWebLookup.wo
+    #ELSE
+    #ENDIF
+    

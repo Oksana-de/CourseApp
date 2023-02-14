@@ -1,0 +1,6 @@
+#REPLACE FILE4 Student
+#REPLACE Student.Recnum |FN4,0
+#REPLACE Student.Id |FN4,1
+#REPLACE Student.FirstName |FS4,2
+#REPLACE Student.LastName |FS4,3
+#REPLACE Student.DateOfBirth |FD4,4

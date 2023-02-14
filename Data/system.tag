@@ -1,0 +1,3 @@
+CourseId
+AuthorId
+StudentId

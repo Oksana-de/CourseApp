@@ -1,0 +1,83 @@
+﻿// C:\front-end\DataFlex Projects\CourseApp\AppSrc\Course.wo
+// Courses
+//
+
+Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebForm.pkg
+Use cWebEdit.pkg
+
+Use cAuthorDataDictionary.dd
+Use cCourseDataDictionary.dd
+Use cWebCombo.pkg
+
+Object oCourse is a cWebView
+    Set piColumnCount to 12
+    Set psCaption to "Courses"
+    Set piWidth to 700
+
+    Object oAuthor_DD is a cAuthorDataDictionary
+    End_Object 
+
+    Object oCourse_DD is a cCourseDataDictionary
+        Set DDO_Server To oAuthor_DD
+    End_Object 
+
+    Set Main_DD To oCourse_DD
+    Set Server  To oCourse_DD
+
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Object oCourseName is a cWebForm
+            Entry_Item Course.Name
+            Set piColumnSpan to 9
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "Title"
+        End_Object 
+
+        Object oCourseCategory is a cWebCombo
+            Entry_Item Course.Category
+            Set piColumnSpan to 4
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "Category"
+        End_Object 
+
+        Object oCoursePrice is a cWebForm
+            Entry_Item Course.Price
+            Set piColumnSpan to 2
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "Price"
+        End_Object 
+
+        Object oCourseDescription is a cWebEdit
+            Entry_Item Course.Description
+            Set piColumnSpan to 9
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "Description"
+            Set pbFillHeight to True
+        End_Object 
+
+        Object oCourseDate is a cWebDateForm
+            Entry_Item Course.Date
+            Set piColumnSpan to 3
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "Date"
+        End_Object 
+
+        Object oAuthorLastName is a cWebForm
+            Entry_Item Author.LastName
+            Set piColumnSpan to 6
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "Author"
+        End_Object 
+    End_Object 
+
+End_Object 

@@ -1,0 +1,9 @@
+#REPLACE FILE2 Course
+#REPLACE Course.Recnum |FN2,0
+#REPLACE Course.Id |FN2,1
+#REPLACE Course.Name |FS2,2
+#REPLACE Course.Description |FS2,3
+#REPLACE Course.Category |FS2,4
+#REPLACE Course.Price |FN2,5
+#REPLACE Course.Date |FD2,6
+#REPLACE Course.AuthorID |FN2,7

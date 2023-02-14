@@ -1,0 +1,5 @@
+#REPLACE FILE1 System
+#REPLACE System.Recnum |FN1,0
+#REPLACE System.CourseId |FN1,1
+#REPLACE System.AuthorId |FN1,2
+#REPLACE System.StudentId |FN1,3

@@ -1,0 +1,106 @@
+﻿// C:\front-end\DataFlex Projects\CourseApp\AppSrc\Course.wo
+// Courses
+//
+
+Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebForm.pkg
+Use cWebEdit.pkg
+
+Use cAuthorDataDictionary.dd
+Use cCourseDataDictionary.dd
+Use cWebCombo.pkg
+Use cWebButton.pkg
+
+Object oCourseModal is a cWebModalDialog
+    Set piColumnCount to 12
+    Set psCaption to "Course Modal "
+    Set piWidth to 700
+
+    Object oAuthor_DD is a cAuthorDataDictionary
+    End_Object 
+
+    Object oCourse_DD is a cCourseDataDictionary
+        Set DDO_Server to oAuthor_DD
+    End_Object 
+
+    Set Main_DD to oCourse_DD
+    Set Server  to oCourse_DD
+
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Object oCourseName is a cWebForm
+            Entry_Item Course.Name
+            Set piColumnSpan to 11
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "Title"
+        End_Object 
+
+        Object oCourseCategory is a cWebCombo
+            Entry_Item Course.Category
+            Set piColumnSpan to 6
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "Category"
+            Set piHeight to 60
+        End_Object 
+
+        Object oCoursePrice is a cWebForm
+            Entry_Item Course.Price
+            Set piColumnSpan to 4
+            Set piColumnIndex to 7
+            Set peLabelPosition to lpTop
+            Set psLabel to "Price"
+            Set piHeight to 65
+        End_Object 
+
+        Object oCourseDescription is a cWebEdit
+            Entry_Item Course.Description
+            Set piColumnSpan to 11
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "Description"
+            Set piHeight to 100
+        End_Object 
+
+        Object oCourseDate is a cWebDateForm
+            Entry_Item Course.Date
+            Set piColumnSpan to 3
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "Date"
+        End_Object 
+
+        Object oAuthorLastName is a cWebForm
+            Entry_Item Author.LastName
+            Set piColumnSpan to 5
+            Set piColumnIndex to 3
+            Set peLabelPosition to lpTop
+            Set psLabel to "Author"
+        End_Object 
+
+        Object oWebButtonSave is a cWebButton
+            Set piColumnSpan to 4
+            Set psCaption to "Save"
+            Set piColumnIndex to 7
+        
+            Procedure OnClick
+                Send Request_Save of oCourse_DD
+                Send Ok
+            End_Procedure
+        End_Object
+    End_Object
+    
+    // used to initialize the dialog
+    Procedure Popup Handle hoReturnObject Integer iCourseId
+        Forward Send Popup hoReturnObject
+        
+        Send Request_Clear oCourse_DD
+        Move iCourseId to Course.Id
+        Send Find of oCourse_DD eq 1
+    End_Procedure
+
+End_Object

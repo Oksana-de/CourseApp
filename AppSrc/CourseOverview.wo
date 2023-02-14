@@ -1,0 +1,198 @@
+﻿Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebForm.pkg 
+Use cWebGrid.pkg
+Use cWebColumn.pkg
+
+Use cCourseDataDictionary.dd
+Use cAuthorDataDictionary.dd
+Use cWebButton.pkg
+Use AuthorWebLookup.wo
+Use cWebList.pkg
+Use CourseModal.wo
+
+Object oCourseOverview is a cWebView
+    Set piWidth to 700
+    Set psCaption to "Course Overview"
+
+    // Your DDO structure will go here
+    Handle hoAuthorWebLookup
+    Move oAuthorWebLookup to hoAuthorWebLookup
+    
+    Object oAuthor_DD is a cAuthorDataDictionary
+    End_Object
+    
+    Object oCourse_DD is a cCourseDataDictionary
+        
+        Set DDO_Server to oAuthor_DD
+        
+        Procedure OnConstrain
+            String sName sCategory sAuthor sFrom sTo
+            
+            WebGet psValue of oSearchCourse to sName
+            WebGet psValue of oSearchCategory to sCategory
+            WebGet psValue of oSearchAuthor to sAuthor
+            WebGet psValue of oSearchFrom to sFrom
+            WebGet psValue of oSearchTo to sTo
+            
+            If (sName <> "") Begin
+                 Constrain Course.Name eq sName           
+            End            
+            If (sCategory <> "") Begin
+                 Constrain Course.Category eq sCategory          
+            End
+            If (sAuthor <> "") Begin
+                Clear Author
+                Move sAuthor to Author.LastName
+                Find GE Author by Index.3
+                If (Found and ((Trim(sAuthor)) = (Trim(Author.LastName)))) Begin
+                    Constrain Course.AuthorID eq (Integer(Author.ID)) 
+                End                          
+            End
+            If (sFrom <> "") Begin
+                 Constrain Course.Date ge (Date(sFrom))
+            End
+            If (sTo <> "") Begin
+                 Constrain Course.Date le (Date(sTo))
+            End
+            
+        End_Procedure
+        
+    End_Object
+    
+    Set Main_DD to oCourse_DD
+    Set Server to oCourse_DD
+    
+    Procedure OnLoad
+        Send Find of oCourse_DD FIRST_RECORD 1
+    End_Procedure
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12        
+
+        Object oSearchCourse is a cWebForm
+            Set piColumnSpan to 4
+            Set psLabel to "Course"
+            Set peLabelPosition to lpTop
+        End_Object
+        
+        Object oSearchCategory is a cWebCombo
+            Set piColumnSpan to 2
+            Set psLabel to "Category"
+            Set peLabelPosition to lpTop
+            Set piColumnIndex to 4
+            
+            Procedure OnFill
+                Forward Send OnFill
+                String sCategoryValue
+                
+                Send AddComboItem "" "Select"
+                Move "" to sCategoryValue
+                Clear Course
+                Find gt Course by 3
+                While (Found)
+                    If (sCategoryValue <> Course.Category) Begin
+                        Send AddComboItem Course.Category Course.Category
+                    End
+                    Move Course.Category to sCategoryValue
+                    Find gt Course by 3
+                Loop
+                
+            End_Procedure
+        End_Object
+                
+        Object oSearchAuthor is a cWebForm
+//            TODO: Make oSearchAuthor clear
+            Entry_Item Author.LastName
+            
+            Set piColumnSpan to 2
+            Set psLabel to "Author"
+            Set peLabelPosition to lpTop
+            Set piColumnIndex to 6
+            
+//            Set pbPromptButton to True
+//            Set phoPrompt to hoAuthorWebLookup
+//            
+//            Procedure OnPrompt
+//                Forward Send OnPrompt
+//            End_Procedure
+//            
+//            WebPublishProcedure PromptUpdateCallback
+//            Procedure PromptUpdateCallback Handle hoPrompt
+//            End_Procedure
+//            
+//            Procedure Prompt_Callback Handle hoPrompt
+//                WebSet psPromptUpdateCallback of hoPrompt to "PromptUpdateCallback"
+//                WebSet peUpdateMode of hoPrompt to umPromptValue
+//            End_Procedure
+        End_Object
+                        
+        Object oSearchFrom is a cWebDateForm
+            Set piColumnSpan to 2
+            Set psLabel to "from"
+            Set peLabelPosition to lpTop
+            Set piColumnIndex to 8
+        End_Object
+                                
+        Object oSearchTo is a cWebDateForm
+            Set piColumnSpan to 2
+            Set psLabel to "to"
+            Set peLabelPosition to lpTop
+            Set piColumnIndex to 10
+        End_Object
+
+        Object oWebButtonSearch is a cWebButton
+            Set piColumnSpan to 3
+            Set psCaption to "Search"
+            Set piColumnIndex to 9
+        
+            Procedure OnClick
+                Send Rebuild_Constraints of oCourse_DD
+                Send FindDDRecordInBuffer of oWebList1
+            End_Procedure
+        End_Object 
+    
+        Object oWebList1 is a cWebList
+            Set pbServerOnRowClick to True
+            
+            Object oWebColumnName is a cWebColumn
+                Entry_Item Course.Name
+                Set psCaption to "Course"
+                Set piWidth to 50
+            End_Object
+            
+            Object oWebColumnCategory is a cWebColumn
+                Entry_Item Course.Category
+                Set psCaption to "Category"
+                Set piWidth to 50
+            End_Object
+            
+            Object oWebColumnPrice is a cWebColumn
+                Entry_Item Course.Price
+                Set psCaption to "Price"
+                Set piWidth to 50
+            End_Object
+            
+            Object oWebColumnAuthor is a cWebColumn
+                Entry_Item Author.LastName
+                Set psCaption to "Author"
+                Set piWidth to 50
+            End_Object
+            
+            Procedure OnRowClick String sRowID
+                Forward Send OnRowClick sRowID
+                
+                Send FindByRowId of oCourse_DD (RefTable(Course)) (DeserializeRowID(sRowID))
+                Send Popup of oCourseModal Self Course.Id
+            End_Procedure
+            
+            Procedure OnCloseModalDialog Handle hoModalDialog
+                Send Rebuild_Constraints of oCourse_DD
+                Send FindDDRecordInBuffer of oWebList1
+            End_Procedure
+            
+        End_Object       
+        
+    End_Object 
+
+End_Object
