@@ -157,6 +157,7 @@ Object oWebApp is a cWebApp
     Use Course.wo
     Use Overview.wo
     Use CourseOverview.wo
+    Use CourseModal.wo
     
     Function GetDefaultView Returns Handle
         Handle hView

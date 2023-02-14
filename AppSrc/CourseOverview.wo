@@ -8,6 +8,8 @@ Use cCourseDataDictionary.dd
 Use cAuthorDataDictionary.dd
 Use cWebButton.pkg
 Use AuthorWebLookup.wo
+Use cWebList.pkg
+Use CourseModal.wo
 
 Object oCourseOverview is a cWebView
     Set piWidth to 700
@@ -146,12 +148,12 @@ Object oCourseOverview is a cWebView
         
             Procedure OnClick
                 Send Rebuild_Constraints of oCourse_DD
-                Send FindDDRecordInBuffer of oWebGrid1
+                Send FindDDRecordInBuffer of oWebList1
             End_Procedure
         End_Object 
-        
     
-        Object oWebGrid1 is a cWebGrid
+        Object oWebList1 is a cWebList
+            Set pbServerOnRowClick to True
             
             Object oWebColumnName is a cWebColumn
                 Entry_Item Course.Name
@@ -176,6 +178,18 @@ Object oCourseOverview is a cWebView
                 Set psCaption to "Author"
                 Set piWidth to 50
             End_Object
+            
+            Procedure OnRowClick String sRowID
+                Forward Send OnRowClick sRowID
+                
+                Send FindByRowId of oCourse_DD (RefTable(Course)) (DeserializeRowID(sRowID))
+                Send Popup of oCourseModal Self Course.Id
+            End_Procedure
+            
+            Procedure OnCloseModalDialog Handle hoModalDialog
+                Send Rebuild_Constraints of oCourse_DD
+                Send FindDDRecordInBuffer of oWebList1
+            End_Procedure
             
         End_Object       
         
