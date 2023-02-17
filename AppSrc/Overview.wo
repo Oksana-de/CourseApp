@@ -67,7 +67,7 @@ Object oOverview is a cWebView
             End_Object 
 
             Object oCourseDate is a cWebColumnDate
-                Entry_Item Course.Date
+                Entry_Item Course.CreationDate
                 Set psCaption to "Date"
                 Set piWidth to 174
             End_Object 

@@ -27,7 +27,7 @@ Object oCourseOverview is a cWebView
         Set DDO_Server to oAuthor_DD
         
         Procedure OnConstrain
-            String sName sCategory sAuthor sFrom sTo
+            String sName sCategory sAuthor sFrom sTo sFilter sFilterTMP
             
             WebGet psValue of oSearchCourse to sName
             WebGet psValue of oSearchCategory to sCategory
@@ -36,27 +36,57 @@ Object oCourseOverview is a cWebView
             WebGet psValue of oSearchTo to sTo
             
             If (sName <> "") Begin
-                 Constrain Course.Name eq sName           
+                 Get SQLStrLike (RefTable(Course.Name)) sName to sFilter
+                 Get SQLStrAppend sFilterTMP sFilter to sFilter           
             End            
             If (sCategory <> "") Begin
-                 Constrain Course.Category eq sCategory          
+                 Get SQLStrLike (RefTable(Course.Category)) sCategory to sFilterTMP
+                 Get SQLStrAppend sFilterTMP sFilter to sFilter          
             End
             If (sAuthor <> "") Begin
-                Clear Author
-                Move sAuthor to Author.LastName
-                Find GE Author by Index.3
-                If (Found and ((Trim(sAuthor)) = (Trim(Author.LastName)))) Begin
-                    Constrain Course.AuthorID eq (Integer(Author.ID)) 
-                End                          
+                Move ("Exists (SELECT ID FROM Author WHERE Author.ID=Course.AuthorID AND Author.LastName LIKE '%" + sAuthor + "%')") to sFilterTMP
+                Get SQLStrAppend sFilterTMP sFilter to sFilter
             End
             If (sFrom <> "") Begin
-                 Constrain Course.Date ge (Date(sFrom))
+                 Get DateToSQLDate (Date(sFrom)) to sFrom
+                 Move ("Course.CreationDate >= '" + sFrom + "'") to sFilterTMP
+                 Get SQLStrAppend sFilterTMP sFilter to sFilter
             End
             If (sTo <> "") Begin
-                 Constrain Course.Date le (Date(sTo))
+                 Get DateToSQLDate (Date(sTo)) to sTo
+                 Move ("Course.CreationDate <= '" + sTo + "'") to sFilterTMP
+                 Get SQLStrAppend sFilterTMP sFilter to sFilter
+            End
+            
+            If (sFilter <> "") Begin
+                Set psSQLFilter to sFilter
+                Set pbUseDDSQLFilters to True
+            End
+            Else Begin
+                Set pbUseDDSQLFilters to False
             End
             
         End_Procedure
+        
+        Function DateToSQLDate Date dDFDate Returns String
+            String sSQLDate
+            Integer iOrgDateFmt
+            Integer iOrgDateSep
+            
+            //*** Change date format to military, SQL dates are military dates
+            Get_Attribute DF_DATE_FORMAT to iOrgDateFmt
+            Get_Attribute DF_DATE_SEPARATOR to iOrgDateSep
+            Set_Attribute DF_DATE_FORMAT to DF_DATE_MILITARY
+            Set_Attribute DF_DATE_SEPARATOR to (Ascii('-'))
+            
+            Move dDFDate to sSQLDate
+            
+            //*** Change date format to original
+            Set_Attribute DF_DATE_FORMAT to iOrgDateFmt
+            Set_Attribute DF_DATE_SEPARATOR to iOrgDateSep
+            
+            Function_Return sSQLDate            
+        End_Function
         
     End_Object
     
@@ -170,6 +200,12 @@ Object oCourseOverview is a cWebView
             Object oWebColumnPrice is a cWebColumn
                 Entry_Item Course.Price
                 Set psCaption to "Price"
+                Set piWidth to 50
+            End_Object
+            
+            Object oWebColumnDate is a cWebColumn
+                Entry_Item Course.CreationDate
+                Set psCaption to "Date"
                 Set piWidth to 50
             End_Object
             

@@ -54,7 +54,7 @@ Object oCourseWebLookup is a cWebModalDialog
             End_Object 
 
             Object oCourseDate is a cWebColumn
-                Entry_Item Course.Date
+                Entry_Item Course.CreationDate
                 Set psCaption to "Date"
                 Set piWidth to 190
             End_Object 

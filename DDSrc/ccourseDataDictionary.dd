@@ -40,8 +40,15 @@ Class cCourseDataDictionary is a DataDictionary
 
         Set Field_WebPrompt_Object Field Course.Price to oCourseWebLookup
 
-        Set Field_WebPrompt_Object Field Course.Date to oCourseWebLookup
+        Set Field_WebPrompt_Object Field Course.CreationDate to oCourseWebLookup
 
+    End_Procedure
+
+    Procedure Field_Defaults
+        String sCreatedTimestamp
+        Forward Send Field_Defaults
+        Move (CurrentDateTime()) to sCreatedTimestamp
+        Set Field_Changed_Value Field Course.Updated to sCreatedTimestamp        
     End_Procedure
 
 End_Class

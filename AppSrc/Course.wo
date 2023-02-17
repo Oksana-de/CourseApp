@@ -64,7 +64,7 @@ Object oCourse is a cWebView
         End_Object 
 
         Object oCourseDate is a cWebDateForm
-            Entry_Item Course.Date
+            Entry_Item Course.CreationDate
             Set piColumnSpan to 3
             Set piColumnIndex to 0
             Set peLabelPosition to lpTop
