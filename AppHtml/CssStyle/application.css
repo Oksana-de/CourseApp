@@ -6,3 +6,7 @@
     width: 100%;
     height: auto;
 }
+
+.item_img img {
+    width: 100%;
+}

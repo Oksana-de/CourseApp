@@ -11,10 +11,13 @@ Use cAuthorDataDictionary.dd
 Use cCourseDataDictionary.dd
 Use cWebCombo.pkg
 Use cWebButton.pkg
+Use cWebFileUploadButton.pkg
+Use cWebImage.pkg
+Use cWebResourceManager.pkg
 
 Object oCourseModal is a cWebModalDialog
     Set piColumnCount to 12
-    Set psCaption to "Course Modal "
+    Set psCaption to "Course Modal"
     Set piWidth to 700
 
     Object oAuthor_DD is a cAuthorDataDictionary
@@ -27,6 +30,11 @@ Object oCourseModal is a cWebModalDialog
     Set Main_DD to oCourse_DD
     Set Server  to oCourse_DD
 
+    { WebProperty=Server }
+    Property String psFilePath
+    
+    Object oCourseResourceManager is a cWebResourceManager
+    End_Object
 
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
@@ -82,6 +90,56 @@ Object oCourseModal is a cWebModalDialog
             Set psLabel to "Author"
         End_Object 
 
+        Object oWebImage1 is a cWebImage
+            Set piColumnSpan to 0
+            Set pbFillHeight to True
+            Set psCSSClass to "item_img"
+        End_Object
+
+        Object oWebFileUploadButton1 is a cWebFileUploadButton
+            Set piColumnSpan to 0
+            Set psCaption to "Upload File(s)"
+        
+            // Called for each file upload to generate the local path where the file is stored.
+            Function OnFileUpload String sFileName Integer iBytes String sMime Returns String
+                String sPath
+                Boolean bFileExists
+                Integer iCourseId
+                
+                Get Field_Current_Value of oCourse_DD Field Course.Id to iCourseId
+                
+                // Determine local path based on workspace setting
+                Get psDataPath of (phoWorkspace(ghoApplication)) to sPath
+                File_Exist (sPath + "\Uploads") bFileExists
+                If (not(bFileExists)) Make_Directory (sPath + "\Uploads")
+                Move (sPath + "\Uploads") to sPath
+                
+                File_Exist (sPath + "\" + String(iCourseId)) bFileExists
+                If (not(bFileExists)) Make_Directory (sPath + "\" + String(iCourseId))
+                Move (sPath + "\" + String(iCourseId)) to sPath
+                
+                Send RegisterDownloadFolder of oCourseResourceManager sPath
+                EraseFile (sPath + "\*.*") 
+
+
+                
+                Move (sPath + "\" + sFileName) to sPath
+                
+                WebSet psFilePath of oCourseModal to sPath
+                
+                Function_Return sPath
+            End_Function
+            
+            Procedure OnUploadFinished
+                String sPath                
+                WebGet psFilePath of oCourseModal to sPath
+                
+                //WebSet psURL of oWebImage1 to sPath                
+                Send UpdateLocalImage of oWebImage1 sPath
+                
+            End_Procedure
+        End_Object
+
         Object oWebButtonSave is a cWebButton
             Set piColumnSpan to 4
             Set psCaption to "Save"
@@ -101,6 +159,33 @@ Object oCourseModal is a cWebModalDialog
         Send Request_Clear oCourse_DD
         Move iCourseId to Course.Id
         Send Find of oCourse_DD eq 1
+        
+        String sPath sFileName
+        Boolean bFileExists
+        
+        If (iCourseId > 0) Begin
+            Get psDataPath of (phoWorkspace(ghoApplication)) to sPath
+            
+             File_Exist (sPath + "\Uploads") bFileExists
+             If (not(bFileExists)) Make_Directory (sPath + "\Uploads")
+             Move (sPath + "\Uploads") to sPath
+                
+             File_Exist (sPath + "\" + String(iCourseId)) bFileExists
+             If (not(bFileExists)) Make_Directory (sPath + "\" + String(iCourseId))
+             Move (sPath + "\" + String(iCourseId)) to sPath
+             
+             Send RegisterDownloadFolder of oCourseResourceManager sPath
+             Direct_Input ("dir: " + sPath)
+             Repeat
+                Readln sFileName
+                If (sFileName <> "" and sFileName <> "[.]" and sFileName <> "[..]") Begin
+                    Send UpdateLocalImage of oWebImage1 (sPath + "\" + sFileName)
+                End
+             Until (SeqEof)
+             Close_Input ("dir: " + sPath)
+        End
     End_Procedure
 
 End_Object
+
+//TODO: figure out how to use the Launch the Web Application Administrator to control the functionality of the app and, in particular, download images
