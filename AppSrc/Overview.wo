@@ -41,6 +41,14 @@ Object oOverview is a cWebView
             Set psLabel to "Author"
         End_Object 
 
+        Object oAuthor_CoursesCounter is a cWebForm
+            Entry_Item Author.CoursesCounter
+            Set piColumnSpan to 6
+            Set psLabel to "Number of courses offered"
+            Set piColumnIndex to 6
+            Set peLabelPosition to lpTop
+        End_Object
+
         Object oDetailGrid is a cWebGrid
             Set Server to oCourse_DD
             Set piOrdering to 6

@@ -3,3 +3,4 @@
 #REPLACE Author.ID |FN3,1
 #REPLACE Author.FirstName |FS3,2
 #REPLACE Author.LastName |FS3,3
+#REPLACE Author.CoursesCounter |FN3,4

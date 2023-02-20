@@ -3,8 +3,9 @@
 }
 
 .logo__img {
-    width: 100%;
+    width: 40%;
     height: auto;
+    padding: 5px 0 5px 10px;
 }
 
 .item_img img {

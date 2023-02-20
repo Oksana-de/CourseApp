@@ -110,6 +110,11 @@ Object oWebApp is a cWebApp
                     Set psCaption to "Course overview"
                     Set psLoadViewOnClick to "oCourseOverview"
                 End_Object
+
+                Object oAuthorsListItem1 is a cWebMenuItemLoadView
+                    Set psCaption to "Authors List"
+                    Set psLoadViewOnClick to "oAuthorsList"
+                End_Object
             End_Object  
         End_Object  
         
@@ -158,6 +163,7 @@ Object oWebApp is a cWebApp
     Use Overview.wo
     Use CourseOverview.wo
     Use CourseModal.wo
+    Use AuthorsList.wo
     
     Function GetDefaultView Returns Handle
         Handle hView

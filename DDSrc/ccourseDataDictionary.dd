@@ -50,7 +50,16 @@ Class cCourseDataDictionary is a DataDictionary
         Move (CurrentDateTime()) to sCreatedTimestamp
         Set Field_Changed_Value Field Course.Updated to sCreatedTimestamp        
     End_Procedure
-
+    
+    Procedure Update
+        Forward Send Update
+        Move (Author.CoursesCounter + 1) to Author.CoursesCounter
+    End_Procedure
+    
+    Procedure Backout
+        Forward Send Backout
+        Move (Author.CoursesCounter - 1) to Author.CoursesCounter
+    End_Procedure
 End_Class
 
     #IFDEF Is$WebApp
