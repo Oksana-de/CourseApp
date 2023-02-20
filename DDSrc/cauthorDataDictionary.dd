@@ -28,7 +28,7 @@ Class cAuthorDataDictionary is a DataDictionary
         Set Field_WebPrompt_Object Field Author.LastName to oAuthorWebLookup
 
     End_Procedure
-
+    
 End_Class
 
     #IFDEF Is$WebApp

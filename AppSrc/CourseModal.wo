@@ -28,7 +28,7 @@ Object oCourseModal is a cWebModalDialog
     End_Object 
 
     Set Main_DD to oCourse_DD
-    Set Server  to oCourse_DD
+    Set Server to oCourse_DD
 
     { WebProperty=Server }
     Property String psFilePath

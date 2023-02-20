@@ -44,7 +44,7 @@ Object oCourseOverview is a cWebView
                  Get SQLStrAppend sFilterTMP sFilter to sFilter          
             End
             If (sAuthor <> "") Begin
-                Move ("Exists (SELECT ID FROM Author WHERE Author.ID=Course.AuthorID AND Author.LastName LIKE '%" + sAuthor + "%')") to sFilterTMP
+                Move ("Exists (SELECT ID FROM Author WHERE Author.ID=Course.AuthorID AND (Author.LastName LIKE '%" + sAuthor + "%' OR Author.FirstName LIKE '%" + sAuthor + "%'))") to sFilterTMP
                 Get SQLStrAppend sFilterTMP sFilter to sFilter
             End
             If (sFrom <> "") Begin
@@ -133,13 +133,21 @@ Object oCourseOverview is a cWebView
                 
         Object oSearchAuthor is a cWebForm
 //            TODO: Make oSearchAuthor clear
-            Entry_Item Author.LastName
             
-            Set piColumnSpan to 2
-            Set psLabel to "Author"
-            Set peLabelPosition to lpTop
-            Set piColumnIndex to 6
-            
+//           TODO: Entry_Item (FullNameBuilder (Self, Author.LastName, Author.FirstName))
+//            
+//           Function FullNameBuilder String sAuthFName String sAuthLName Returns String
+//               String sValue
+//               Move (sAuthFName*sAuthLName) to sValue
+//               Function_Return sValue
+//           End_Function
+           Entry_Item Author.LastName
+    
+           Set piColumnSpan to 2
+           Set psLabel to "Author"
+           Set peLabelPosition to lpTop
+           Set piColumnIndex to 6
+    
 //            Set pbPromptButton to True
 //            Set phoPrompt to hoAuthorWebLookup
 //            
@@ -210,9 +218,13 @@ Object oCourseOverview is a cWebView
             End_Object
             
             Object oWebColumnAuthor is a cWebColumn
-                Entry_Item Author.LastName
                 Set psCaption to "Author"
                 Set piWidth to 50
+                Procedure OnSetCalculatedValue String ByRef sValue
+                    Forward Send OnSetCalculatedValue (&sValue)
+                    
+                    Move (Author.LastName * Author.FirstName) to sValue
+                End_Procedure
             End_Object
             
             Procedure OnRowClick String sRowID

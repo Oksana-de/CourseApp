@@ -42,9 +42,14 @@ Object oCourseWebLookup is a cWebModalDialog
             End_Object 
 
             Object oAuthorLastName is a cWebColumn
-                Entry_Item Author.LastName
                 Set psCaption to "Author"
                 Set piWidth to 200
+                
+                Procedure OnSetCalculatedValue String ByRef sValue
+                    Forward Send OnSetCalculatedValue (&sValue)
+                    
+                    Move (Author.LastName * Author.FirstName) to sValue
+                End_Procedure
             End_Object 
 
             Object oCoursePrice is a cWebColumn

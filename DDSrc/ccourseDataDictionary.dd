@@ -60,6 +60,12 @@ Class cCourseDataDictionary is a DataDictionary
         Forward Send Backout
         Move (Author.CoursesCounter - 1) to Author.CoursesCounter
     End_Procedure
+    
+    Function FullNameBuilder Returns String
+        String sValue
+        Move (Author.LastName * Author.FirstName) to sValue
+        Function_Return sValue
+    End_Function
 End_Class
 
     #IFDEF Is$WebApp

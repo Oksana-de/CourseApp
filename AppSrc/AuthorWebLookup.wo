@@ -29,18 +29,17 @@ Object oAuthorWebLookup is a cWebModalDialog
         Object oPromptList is a cWebPromptList
             Set pbFillHeight to True
             Set piColumnSpan to 12
-
-            Object oAuthorFirstName is a cWebColumn
-                Entry_Item Author.FirstName
-                Set psCaption to "Name"
+            
+            Object oAuthorName is a cWebColumn
+                Set psCaption to "Author name"
                 Set piWidth to 500
-            End_Object 
-
-            Object oAuthorLastName is a cWebColumn
-                Entry_Item Author.LastName
-                Set psCaption to "Surname"
-                Set piWidth to 500
-            End_Object 
+            
+                Procedure OnSetCalculatedValue String ByRef sValue
+                    Forward Send OnSetCalculatedValue (&sValue)
+                    
+                    Move (Author.LastName * Author.FirstName) to sValue
+                End_Procedure
+            End_Object
         End_Object 
 
         Object oOkButton is a cWebButton

@@ -29,21 +29,22 @@ Object oAuthorsList is a cWebView
         Set piColumnCount to 12
 
         Object oWebList1 is a cWebList            
-            Object oAuthor_LastName is a cWebColumn
-                Entry_Item Author.LastName
-                Set psCaption to "Authors last name"
+            Object oAuthor_Name is a cWebColumn
+                Set psCaption to "Authors name"
                 Set piWidth to 50
-            End_Object            
-            Object oAuthor_FirstName is a cWebColumn
-                Entry_Item Author.FirstName
-                Set psCaption to "Authors first name"
-                Set piWidth to 50
+                
+                Procedure OnSetCalculatedValue String ByRef sValue
+                    Forward Send OnSetCalculatedValue (&sValue)
+                    
+                    Move (Author.LastName * Author.FirstName) to sValue
+                End_Procedure
             End_Object
 
             Object oAuthor_CoursesCounter1 is a cWebColumn
                 Entry_Item Author.CoursesCounter
                 Set psCaption to "Number of courses"
                 Set piWidth to 50
+                Set peAlign to alignCenter
             End_Object
         End_Object
 
